@@ -44,25 +44,25 @@ You can install all dependencies at once with:
 - npm install -D tailwindcss postcss autoprefixer
 - npx tailwindcss init -p (after installation)
 
-# Installation Guide
-## Steps to Run the Project
+## Installation Guide
+# Steps to Run the Project
 
 # Clone the Repository:
-- git clone https://github.com/your-username/AI_Chat_Assistant.git
+- git clone [https://github.com/your-username/AI_Chat_Assistant](https://github.com/ayesha-saddiqaa/AI_Chat_assistant).git
 - cd AI_Chat_Assistant
 
-# Install Dependencies:
+## Install Dependencies:
 Install all required packages using npm:
 - npm install
 
-# Initialize Tailwind CSS
-Then, in your tailwind.config.js, set up your paths as:
+## Initialize Tailwind CSS
+#Then, in your tailwind.config.js, set up your paths as:
 content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-Add the following lines to your index.css file:
+- Add the following lines to your index.css file:
 - @tailwind base;
 - @tailwind components;
 - @tailwind utilities;
 
-# Run the Development Server
+## Run the Development Server
 Now you can run the app locally using:
 - npm run dev
