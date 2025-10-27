@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { sendToGemini } from "../../utils/api";
+import { db, auth } from "../../firebase";
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
 
 export default function NewChat() {
   const [input, setInput] = useState("");
@@ -7,24 +16,63 @@ export default function NewChat() {
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
 
+  // Real-time listener (fetch chat history)
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const q = query(
+      collection(db, "users", user.uid, "chats"),
+      orderBy("createdAt", "asc")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const msgs = snapshot.docs.map((doc) => doc.data());
+      setMessages(msgs);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Send message
   const handleSend = async (e) => {
     e.preventDefault();
     const prompt = input.trim();
-    if (!prompt) return;
+    if (!prompt || !auth.currentUser) return;
 
-    const newMessage = { role: "user", text: prompt };
-    setMessages((prev) => [...prev, newMessage]);
     setInput("");
     setLoading(true);
 
-    const response = await sendToGemini(prompt);
-    const botMessage = { role: "bot", text: response };
+    const userId = auth.currentUser.uid;
 
-    setMessages((prev) => [...prev, botMessage]);
+    //  Save user message to Firestore
+    await addDoc(collection(db, "users", userId, "chats"), {
+      role: "user",
+      text: prompt,
+      createdAt: serverTimestamp(),
+    });
+
+    try {
+      // Get bot response from Gemini
+      const response = await sendToGemini(prompt);
+
+      // Save bot message to Firestore
+      await addDoc(collection(db, "users", userId, "chats"), {
+        role: "bot",
+        text: response,
+        createdAt: serverTimestamp(),
+      });
+
+      //Update local messages
+      setMessages((prev) => [...prev, { role: "bot", text: response }]);
+    } catch (error) {
+      console.error("Error in sending or saving chat:", error);
+    }
+
     setLoading(false);
   };
 
-  // Auto scroll when new message added
+  // Auto-scroll to bottom
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
@@ -32,10 +80,7 @@ export default function NewChat() {
   return (
     <div className="min-h-screen w-full flex flex-col bg-zinc-900 text-zinc-200 items-center">
       {/* Chat Messages */}
-      <div
-        className="flex-1 w-full max-w-3xl px-6 py-8 overflow-y-auto space-y-4 pb-40"
-      >
-        
+      <div className="flex-1 w-full max-w-3xl px-6 py-8 overflow-y-auto space-y-4 pb-40">
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -57,12 +102,11 @@ export default function NewChat() {
 
         {loading && (
           <div className="flex justify-start">
-            <div className="p-3 bg-zinc-800 rounded-2xl rounded-bl-none text-zinc-400 animate-pulse">
+            <div className="p-3 bg-zinc-800 rounded-2xl text-zinc-400 animate-pulse">
               Thinking...
             </div>
           </div>
         )}
-
         <div ref={chatEndRef} />
       </div>
 
