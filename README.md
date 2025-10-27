@@ -39,30 +39,30 @@ Before running this project, make sure you have the following installed:
 
 ## Dependencies
 You can install all dependencies at once with:
-npm install
-npm install firebase
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p (after installation)
+- npm install
+- npm install firebase
+- npm install -D tailwindcss postcss autoprefixer
+- npx tailwindcss init -p (after installation)
 
 # Installation Guide
 ## Steps to Run the Project
 
 # Clone the Repository:
-git clone https://github.com/your-username/AI_Chat_Assistant.git
-cd AI_Chat_Assistant
+- git clone https://github.com/your-username/AI_Chat_Assistant.git
+- cd AI_Chat_Assistant
 
 # Install Dependencies:
 Install all required packages using npm:
-npm install
+- npm install
 
 # Initialize Tailwind CSS
 Then, in your tailwind.config.js, set up your paths as:
 content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 Add the following lines to your index.css file:
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+- @tailwind base;
+- @tailwind components;
+- @tailwind utilities;
 
 # Run the Development Server
 Now you can run the app locally using:
-npm run dev
+- npm run dev
