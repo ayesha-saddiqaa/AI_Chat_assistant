@@ -33,35 +33,24 @@ Modern, smooth UI with a focus on usability
 Before running this project, make sure you have the following installed:
 - **Node.js** ≥ 18  
 - **npm** ≥ 9  
-- **Firebase project** with Authentication and Firestore enabled  
 - **Google Gemini API key**  
-
-
-## Dependencies
-You can install all dependencies at once with:
-- npm install
-- npm install firebase
-- npm install -D tailwindcss postcss autoprefixer
-- npx tailwindcss init -p (after installation)
 
 ## Installation Guide
 # Steps to Run the Project
 
 # Clone the Repository:
 - git clone [https://github.com/your-username/AI_Chat_Assistant](https://github.com/ayesha-saddiqaa/AI_Chat_assistant).git
-- cd AI_Chat_Assistant
+- cd LLM
+
+# .env file
+- make a .env file in LLM folder and copy the API key in it.
+- VITE_GEMINI_API_KEY=AIzaSyAkcWN6L_l58ZFTiMwzLAI53KsTFDeCrzE
 
 ## Install Dependencies:
 Install all required packages using npm:
+- npm install shiki@^1.6.0
 - npm install
-
-## Initialize Tailwind CSS
-#Then, in your tailwind.config.js, set up your paths as:
-content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-- Add the following lines to your index.css file:
-- @tailwind base;
-- @tailwind components;
-- @tailwind utilities;
+- npm install firebase
 
 ## Run the Development Server
 Now you can run the app locally using:
