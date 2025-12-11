@@ -36,6 +36,8 @@ export default function Sidebar({ chats }) {
           {/* Static pages */}
           <Item to="/" label="Home" />
           <Item to="/new-chat" label="New Chat" />
+          <Item to="/story-generator" label="Story Generator" />
+          <Item to="/word-pilot" label="Word Pilot" />
           <Item to="/login" label="Login" />
           <Item to="/signup" label="Signup" />
 
